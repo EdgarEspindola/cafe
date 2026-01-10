@@ -1,0 +1,12 @@
+/.bundle
+/log
+/tmp
+/vendor/bundle
+/node_modules
+.env
+.DS_Store
+.git
+coverage
+spec/tmp
+/.idea
+/*.swp

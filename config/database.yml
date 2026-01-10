@@ -17,16 +17,14 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  # For details on connection pooling, see rails configuration guide
-  # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: cafe_usr 
-  password: cafe_pass
-  host: localhost
+  username: <%= ENV.fetch('DB_USERNAME', 'cafe_usr') %>
+  password: <%= ENV.fetch('DB_PASSWORD', 'cafe_pass') %>
+  host: <%= ENV.fetch('DB_HOST', 'localhost') %>
 
 development:
   <<: *default
-  database: cafe_development
+  database: <%= ENV.fetch('DB_NAME', 'cafe_development') %>
 
   # The TCP port the server listens on. Defaults to 5432.
   # If your server runs on a different port number, change accordingly.
@@ -46,7 +44,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: cafe_test
+  database: <%= ENV.fetch('DB_NAME_TEST', 'cafe_test') %>
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -69,6 +67,6 @@ test:
 #
 production:
   <<: *default
-  database: creditos_production
-  username: creditos
-  password: <%= ENV['CREDITOS_DATABASE_PASSWORD'] %>
+  database: <%= ENV.fetch('DB_NAME', 'cafe_production') %>
+  username: <%= ENV.fetch('DB_USERNAME_PROD', ENV.fetch('DB_USERNAME', 'creditos')) %>
+  password: <%= ENV['CREDITOS_DATABASE_PASSWORD'] || ENV.fetch('DB_PASSWORD', '') %>
