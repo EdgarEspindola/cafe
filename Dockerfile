@@ -67,8 +67,8 @@ ENV RACK_ENV=production
 ENV RAILS_SERVE_STATIC_FILES=1
 ENV RAILS_LOG_TO_STDOUT=1
 
-# Precompile assets (Sprockets)
-RUN bundle exec rake assets:precompile
+# Precompile assets (Sprockets) Produccion
+RUN SECRET_KEY_BASE=123456789 bundle exec rake assets:precompile --trace
 
 EXPOSE 3000
 
