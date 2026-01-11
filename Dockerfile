@@ -60,7 +60,16 @@ COPY . .
 RUN mkdir -p /app/reports \
     && chmod -R 755 /app/reports
 
-ENV RAILS_ENV=development
+#ENV RAILS_ENV=development
+# ===== PRODUCCIÓN =====
+ENV RAILS_ENV=production
+ENV RACK_ENV=production
+ENV RAILS_SERVE_STATIC_FILES=1
+ENV RAILS_LOG_TO_STDOUT=1
+
+# Precompile assets (Sprockets)
+RUN bundle exec rake assets:precompile
+
 EXPOSE 3000
 
 # IMPORTANT:
