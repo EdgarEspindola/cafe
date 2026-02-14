@@ -82,6 +82,9 @@
 		<field name="numero_bolsas" class="java.lang.String">
 			<fieldDescription><![CDATA[numero_bolsas]]></fieldDescription>
 		</field>
+		<field name="numero_costalillas" class="java.lang.String">
+			<fieldDescription><![CDATA[numero_costalillas]]></fieldDescription>
+		</field>
 		<field name="humedad" class="java.lang.String">
 			<fieldDescription><![CDATA[humedad]]></fieldDescription>
 		</field>
@@ -388,7 +391,7 @@
 									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 								</reportElement>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{numero_sacos} + "  SACOS + " + $F{numero_bolsas} + " BOLSAS"]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{numero_sacos} + " SACOS + " + $F{numero_bolsas} + " BOLSAS + " + $F{numero_costalillas} + " COSTALILLAS"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

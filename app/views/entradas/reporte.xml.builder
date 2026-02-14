@@ -24,6 +24,7 @@ xml.entrada do
         xml.kilogramos_netos number_with_precision(partida.kilogramos_netos, precision: 2)
         xml.numero_sacos partida.numero_sacos
         xml.numero_bolsas partida.numero_bolsas
+        xml.numero_costalillas partida.numero_costalillas
         xml.humedad number_with_precision(partida.humedad, precision: 2)
         xml.tipo_cafe partida.type_coffee.name
         xml.calidad_cafe partida.calidad_cafe
