@@ -411,7 +411,7 @@
 							<textField isStretchWithOverflow="true">
 								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="139" height="30" uuid="823ac0a7-9ee7-4eee-85d2-1c8d36798bdc"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA["CAFÉ: " + $F{tipo_cafe}.toUpperCase() + ", HUMEDAD: " +  $F{humedad}.toUpperCase() +" %, CALIDAD: " + $F{calidad_cafe}.toUpperCase()]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{tipo_cafe}.toUpperCase() + ", H2O: " +  $F{humedad}.toUpperCase() +" %, " + $F{calidad_cafe}.toUpperCase()]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

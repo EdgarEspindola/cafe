@@ -399,7 +399,7 @@
 									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 								</reportElement>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA["CAFÉ: " + $F{tipo_cafe}.toUpperCase() + ", HUMEDAD: " +  $F{humedad}.toUpperCase() +" %, CALIDAD: " + $F{calidad_cafe}.toUpperCase()]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{tipo_cafe}.toUpperCase() + ", H2O: " +  $F{humedad}.toUpperCase() +" %, " + $F{calidad_cafe}.toUpperCase()]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
