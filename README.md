@@ -223,3 +223,8 @@ docker compose up --build --force-recreate
 * El código de Jasper **no se toca** si ya genera PDFs
 * Si algo falla, **primero revisar Docker / PATH / Java**
 * Infraestructura > código (en este proyecto)
+
+##Desarrollo
+
+ * Reinicial el servidor: docker-compose restart web
+ * Visualizar logs: docker-compose logs -f web  
