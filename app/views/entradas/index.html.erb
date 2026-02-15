@@ -9,44 +9,83 @@
 <div class="row">
     <div class='col-sm-12'>
       <div class="pull-right">
-          <%= link_to new_entrada_path, class: "btn btn-ghost btn-primary" do %>   
+          <%= link_to new_entrada_path, class: "btn btn-ghost btn-primary", style: "margin-left: 10px;" do %>   
             <i class="fa fa-plus-square"  aria-hidden="true"></i>
             <%= t('.new_entrada_link') %>
           <% end %>
+          
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exportarExcelModal">
+            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+            Exportar
+          </button>
       </div>         
     </div>
 </div>
 
-<div class="row" style="margin-top: 20px;">
-  <div class='col-sm-12'>
-    <%= form_tag excel_export_entradas_path, method: :get, class: 'form-inline', id: 'excel_export_form' do %>
-      <div class="form-group">
-        <label for="fecha_inicio">Fecha Inicio:</label>
-        <div class="input-group datetimepicker_export_range" style="margin-left: 10px;">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
-          </span>
-          <%= text_field_tag :fecha_inicio, (Date.today - 30.days).strftime('%d/%m/%Y'), 
-              class: 'form-control', readonly: true, required: true %>
-        </div>
+<!-- Modal para Exportar Excel -->
+<div class="modal fade" id="exportarExcelModal" tabindex="-1" role="dialog" aria-labelledby="exportarExcelModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #5cb85c; color: white;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white; opacity: 0.8;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exportarExcelModalLabel">
+          <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+          Exportar Entradas a Excel
+        </h4>
       </div>
       
-      <div class="form-group" style="margin-left: 15px;">
-        <label for="fecha_fin">Fecha Fin:</label>
-        <div class="input-group datetimepicker_export_range" style="margin-left: 10px;">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
-          </span>
-          <%= text_field_tag :fecha_fin, Date.today.strftime('%d/%m/%Y'), 
-              class: 'form-control', readonly: true, required: true %>
+      <%= form_tag excel_export_entradas_path, method: :get, id: 'excel_export_form' do %>
+        <div class="modal-body">
+          <p class="text-muted">
+            <i class="fa fa-info-circle"></i>
+            Seleccione el rango de fechas para exportar las entradas registradas
+          </p>
+          
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="fecha_inicio" class="control-label"><strong>Fecha Inicio</strong></label>
+                <div class="input-group datetimepicker_export_range">
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-calendar text-success"></i>
+                  </span>
+                  <%= text_field_tag :fecha_inicio, (Date.today - 30.days).strftime('%d/%m/%Y'), 
+                      class: 'form-control', readonly: true, required: true, 
+                      style: 'cursor: pointer;' %>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="fecha_fin" class="control-label"><strong>Fecha Fin</strong></label>
+                <div class="input-group datetimepicker_export_range">
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-calendar text-success"></i>
+                  </span>
+                  <%= text_field_tag :fecha_fin, Date.today.strftime('%d/%m/%Y'), 
+                      class: 'form-control', readonly: true, required: true, 
+                      style: 'cursor: pointer;' %>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      
-      <%= button_tag type: :submit, class: 'btn btn-ghost btn-success', style: 'margin-left: 15px;' do %>
-        <i class="fa fa-file-excel-o" aria-hidden="true"></i>
-        Exportar Excel
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <i class="fa fa-times" aria-hidden="true"></i>
+            Cancelar
+          </button>
+          <%= button_tag type: :submit, class: 'btn btn-success' do %>
+            <i class="fa fa-download" aria-hidden="true"></i>
+            Descargar Excel
+          <% end %>
+        </div>
       <% end %>
-    <% end %>
+    </div>
   </div>
 </div>
 

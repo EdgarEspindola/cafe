@@ -349,11 +349,14 @@ $(function () {
 
     /**
      * Configuración de picker para exportación Excel
+     * Se inicializa cuando se abre el modal
      */
-    $('.datetimepicker_export_range').datetimepicker({
-        format: "DD/MM/YYYY",
-        sideBySide: true,
-        ignoreReadonly: true
+    $('#exportarExcelModal').on('shown.bs.modal', function () {
+        $('.datetimepicker_export_range').datetimepicker({
+            format: "DD/MM/YYYY",
+            sideBySide: true,
+            ignoreReadonly: true
+        });
     });
 
     /**
@@ -375,6 +378,8 @@ $(function () {
             return false;
         }
 
+        // Cerrar el modal antes de descargar
+        $('#exportarExcelModal').modal('hide');
         return true;
     });
 
