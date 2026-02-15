@@ -48,9 +48,9 @@ wb.add_worksheet(name: 'Entradas') do |sheet|
   @entradas.each do |entrada|
     entrada.partidas.each do |partida|
       # Calculate merma quantities by type
-      secado = partida.mermas.select { |m| m.type_merma == 'dry_coffee' }.sum { |m| m.quantity.to_f }
-      muestra = partida.mermas.select { |m| m.type_merma == 'sample_coffee' }.sum { |m| m.quantity.to_f }
-      tiempo = partida.mermas.select { |m| m.type_merma == 'time' }.sum { |m| m.quantity.to_f }
+      secado = partida.mermas.select { |m| m.merma_type == 'dry_coffee' }.sum { |m| m.quantity.to_f }
+      muestra = partida.mermas.select { |m| m.merma_type == 'sample_coffee' }.sum { |m| m.quantity.to_f }
+      tiempo = partida.mermas.select { |m| m.merma_type == 'time' }.sum { |m| m.quantity.to_f }
       
       # Add data row with appropriate styles
       sheet.add_row [
