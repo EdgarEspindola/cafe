@@ -5,7 +5,7 @@ var $totalPartidasBadge = $('.badge');
 var partidas;
 $(function () {
 
-    if($('#formulario-entradas').length) {
+    if ($('#formulario-entradas').length) {
         /**
         ** Se agregan las partidas a las entradas
         */
@@ -21,11 +21,11 @@ $(function () {
 
             $partidas: [],
 
-            initialize: function() {
+            initialize: function () {
                 this.$partidas = [];
                 var $partidaDiv = $('.nested-fields');
                 var that = this;
-                for(var i = $partidaDiv.length - 1, j = 0; i >= 0; i--, j++) {
+                for (var i = $partidaDiv.length - 1, j = 0; i >= 0; i--, j++) {
                     that.$partidas[j] = $($partidaDiv[i]);
                 }
                 this.actualizarTotalPartidas();
@@ -35,24 +35,24 @@ $(function () {
                 return;
             },
 
-            add: function($partida) {
+            add: function ($partida) {
                 this.$partidas.push($partida);
                 this.asignarNumero($partida);
                 this.actualizarTotalPartidas();
                 return;
             },
 
-            show: function() {
-                this.$partidas.forEach(function($partida) {
+            show: function () {
+                this.$partidas.forEach(function ($partida) {
                     console.log($partida);
                 });
 
                 return;
             },
 
-            remove: function($partidaToDestroy) {
+            remove: function ($partidaToDestroy) {
                 var that = this;
-                that.$partidas.forEach(function($partida, index) {
+                that.$partidas.forEach(function ($partida, index) {
                     if ($partida.is($partidaToDestroy)) {
                         that.$partidas.splice(index, 1);
                         return;
@@ -65,13 +65,13 @@ $(function () {
                 return;
             },
 
-            notDeleteFirst: function() {
+            notDeleteFirst: function () {
                 var $removePartidaLink = this.$partidas[0].find('.remove_fields');
                 $removePartidaLink.remove();
                 return;
             },
 
-            size: function() {
+            size: function () {
                 return this.$partidas.length;
             },
 
@@ -80,7 +80,7 @@ $(function () {
              * @param {type} $partida
              * @returns {undefined}
              */
-            asignarNumero: function($partida) {
+            asignarNumero: function ($partida) {
                 var $identificadorInput = this.obtenerIdentificadorInput($partida);
                 var $identificadorStringInput = this.obtenerIdentificadorStringInput($partida);
                 console.log("pasa por aqiu");
@@ -94,9 +94,9 @@ $(function () {
              * de partidas, usado al momento de eliminar una partida
              * @returns {undefined}
              */
-            reordenarNumeros: function() {
+            reordenarNumeros: function () {
                 var that = this;
-                that.$partidas.forEach(function($partida, index) {
+                that.$partidas.forEach(function ($partida, index) {
                     var $identificadorInput = that.obtenerIdentificadorInput($partida);
                     var $identificadorStringInput = that.obtenerIdentificadorStringInput($partida);
                     $identificadorInput.val(index + 1 + totalPartidasServer);
@@ -107,11 +107,11 @@ $(function () {
                 return;
             },
 
-            obtenerIdentificadorInput: function($partida) {
+            obtenerIdentificadorInput: function ($partida) {
                 return $partida.find('.identificador');
             },
 
-            obtenerIdentificadorStringInput: function($partida) {
+            obtenerIdentificadorStringInput: function ($partida) {
                 return $partida.find('.identificador_string');
             },
 
@@ -119,7 +119,7 @@ $(function () {
              * Actualiza el total de las partidas que se muestran en la interfaz
              * @returns {undefined}
              */
-            actualizarTotalPartidas: function() {
+            actualizarTotalPartidas: function () {
                 $totalPartidasBadge.text(this.size());
                 return;
             }
@@ -131,7 +131,7 @@ $(function () {
         disableAddPartidaLink();
     }
 
-    $('#partidas').on('cocoon:after-insert', function(e, insertedPartida) {
+    $('#partidas').on('cocoon:after-insert', function (e, insertedPartida) {
         partidas.add(insertedPartida);
         partidas.show();
         partidas.notDeleteFirst();
@@ -140,7 +140,7 @@ $(function () {
         return;
     });
 
-    $('#partidas').on('cocoon:before-remove', function(e, deletedPartida) {
+    $('#partidas').on('cocoon:before-remove', function (e, deletedPartida) {
 
         partidas.remove(deletedPartida);
         if (partidas.size() < partidas.maximum) {
@@ -174,7 +174,7 @@ $(function () {
 
 var partida;
 
-$(function() {
+$(function () {
 
     /**
      * Objeto que almacena el numero de sacos, numero de bolsas y el valor de la tara.
@@ -194,39 +194,39 @@ $(function() {
 
         $kilogramosNetos: null,
 
-        obtenerValorTara: function() {
-          var totalSacos = parseFloat(this.$numeroSacos.val());
-          var totalBolsas = parseFloat(this.$numeroBolsas.val()) * 0.200;
-          var totalCostalillas = parseFloat(this.$numeroCostalillas.val()) * 0.100;
-          var valor_tara = (totalSacos + totalBolsas + totalCostalillas);
+        obtenerValorTara: function () {
+            var totalSacos = parseFloat(this.$numeroSacos.val());
+            var totalBolsas = parseFloat(this.$numeroBolsas.val()) * 0.200;
+            var totalCostalillas = parseFloat(this.$numeroCostalillas.val()) * 0.100;
+            var valor_tara = (totalSacos + totalBolsas + totalCostalillas);
 
-          if (isNaN(totalSacos) || isNaN(totalBolsas) || isNaN(totalCostalillas)) {
-              return;
-          }
+            if (isNaN(totalSacos) || isNaN(totalBolsas) || isNaN(totalCostalillas)) {
+                return;
+            }
 
-          this.$tara.val(valor_tara.toFixed(2));
-          this.$tara.change(); // Trick to trigger change event and update input kilogramos netos
-          return;
+            this.$tara.val(valor_tara.toFixed(2));
+            this.$tara.change(); // Trick to trigger change event and update input kilogramos netos
+            return;
         },
 
-        obtenerValorKilogramosNetos: function() {
-          var kilogramosBrutos = parseFloat(this.$kilogramosBrutos.val());
-          var tara = parseFloat(this.$tara.val());
-          var difference = kilogramosBrutos - tara;
+        obtenerValorKilogramosNetos: function () {
+            var kilogramosBrutos = parseFloat(this.$kilogramosBrutos.val());
+            var tara = parseFloat(this.$tara.val());
+            var difference = kilogramosBrutos - tara;
 
-          if (isNaN(kilogramosBrutos) || isNaN(tara)) {
-              return;
-          }
+            if (isNaN(kilogramosBrutos) || isNaN(tara)) {
+                return;
+            }
 
-          this.$kilogramosNetos.val(difference.toFixed(2));
-          return;
+            this.$kilogramosNetos.val(difference.toFixed(2));
+            return;
         }
     };
 
     /**
      * Funcion que observa por cambios en el campo numero de sacos
      */
-    $(document).on('keyup', '.numero-sacos', partida, function() {
+    $(document).on('keyup', '.numero-sacos', partida, function () {
 
         var $numeroSacosInput = $(this);
         var $padre = $numeroSacosInput.closest('.nested-fields');
@@ -242,7 +242,7 @@ $(function() {
     /**
      * Funcion que observa por cambios en el campo numero de bolsas
      */
-    $(document).on('keyup', '.numero-bolsas', partida, function() {
+    $(document).on('keyup', '.numero-bolsas', partida, function () {
 
         var $numeroBolsasInput = $(this);
         var $padre = $numeroBolsasInput.closest('.nested-fields');
@@ -258,7 +258,7 @@ $(function() {
     /**
      * Funcion que observa por cambios en el campo numero de costalillas
      */
-    $(document).on('keyup', '.numero-costalillas', partida, function() {
+    $(document).on('keyup', '.numero-costalillas', partida, function () {
 
         var $numeroCostalillasInput = $(this);
         var $padre = $numeroCostalillasInput.closest('.nested-fields');
@@ -274,7 +274,7 @@ $(function() {
     /**
      * Funcion que observa por cambios en el campo kilogramos brutos
      */
-    $(document).on('keyup', '.kilogramos-brutos', partida, function() {
+    $(document).on('keyup', '.kilogramos-brutos', partida, function () {
 
         var $kilogramosBrutosInput = $(this);
         var $padre = $kilogramosBrutosInput.closest('.nested-fields');
@@ -289,7 +289,7 @@ $(function() {
     /**
      * Funcion que observa por cambios en el campo tara
      */
-    $(document).on('change', '.tara', partida, function() {
+    $(document).on('change', '.tara', partida, function () {
         var $taraInput = $(this);
         var $padre = $taraInput.closest('.nested-fields');
 
@@ -335,7 +335,7 @@ $(function() {
 //</editor-fold>
 
 //<editor-fold desc="Configuracion de picker hora-fecha, agregación de mascara">
-$(function() {
+$(function () {
 
     /**
      * Configuración de picker hora-fecha
@@ -348,6 +348,37 @@ $(function() {
     $('#entrada_date').mask('00/00/0000 00:00');
 
     /**
+     * Configuración de picker para exportación Excel
+     */
+    $('.datetimepicker_export_range').datetimepicker({
+        format: "DD/MM/YYYY",
+        sideBySide: true,
+        ignoreReadonly: true
+    });
+
+    /**
+     * Validación de fechas para exportación Excel
+     */
+    $('#excel_export_form').on('submit', function (e) {
+        var fechaInicio = moment($('#fecha_inicio').val(), 'DD/MM/YYYY');
+        var fechaFin = moment($('#fecha_fin').val(), 'DD/MM/YYYY');
+
+        if (!fechaInicio.isValid() || !fechaFin.isValid()) {
+            alert('Por favor ingrese fechas válidas en formato DD/MM/YYYY');
+            e.preventDefault();
+            return false;
+        }
+
+        if (fechaFin.isBefore(fechaInicio)) {
+            alert('La fecha final debe ser mayor o igual a la fecha inicial');
+            e.preventDefault();
+            return false;
+        }
+
+        return true;
+    });
+
+    /**
      * Configuración de mascara para kilogramos brutos, tara,
      * kilogramos netos, numero bultos
      */
@@ -355,28 +386,28 @@ $(function() {
     var formatBultos = "##0";
     var formatHumedad = "00.00";
 
-    $('.kilogramos-brutos').mask(formatKilogramos, {reverse: true});
+    $('.kilogramos-brutos').mask(formatKilogramos, { reverse: true });
     addMask($('.container'), ".kilogramos-brutos", formatKilogramos);
 
-    $('.tara').mask(formatKilogramos, {reverse: true});
+    $('.tara').mask(formatKilogramos, { reverse: true });
     addMask($('.container'), ".tara", formatKilogramos);
 
-    $('.kilogramos-netos').mask(formatKilogramos, {reverse: true});
+    $('.kilogramos-netos').mask(formatKilogramos, { reverse: true });
     addMask($('.container'), ".kilogramos-netos", formatKilogramos);
 
-    $('.numero-sacos').mask(formatBultos, {reverse: true});
+    $('.numero-sacos').mask(formatBultos, { reverse: true });
     addMask($('.container'), ".numero-sacos", formatBultos);
 
-    $('.numero-bolsas').mask(formatBultos, {reverse: true});
+    $('.numero-bolsas').mask(formatBultos, { reverse: true });
     addMask($('.container'), ".numero-bolsas", formatBultos);
 
-    $('.humedad').mask(formatHumedad, {reverse: true});
+    $('.humedad').mask(formatHumedad, { reverse: true });
     addMask($('.container'), ".humedad", formatHumedad);
 
     function addMask($container, element, format) {
-        $container.arrive(element, function() {
+        $container.arrive(element, function () {
             var $newElement = $(this);
-            $newElement.mask(format, {reverse: true});
+            $newElement.mask(format, { reverse: true });
         });
     }
 
@@ -391,7 +422,7 @@ $(function() {
 var entrada;
 $(function () {
 
-    if($('#formulario-entradas').length) {
+    if ($('#formulario-entradas').length) {
 
         /**
         * Objeto que almacena el cliente, numero de entrada por cliente
@@ -404,29 +435,29 @@ $(function () {
 
             $numeroEntradaClienteInput: $('#entrada_numero_entrada_cliente'),
 
-            obtenerValorEntradaCliente: function() {
+            obtenerValorEntradaCliente: function () {
                 var datosEnviar = {
                     id: this.$idInput.val(),
                     idCliente: this.$clienteInput.val()
                 };
                 var that = this;
                 var jqxhr = $.getJSON("/entradas/numero_entrada_cliente",
-                    datosEnviar, function(data) {
-                    that.asignarValorEntrada(data.numero_entrada);
-                });
+                    datosEnviar, function (data) {
+                        that.asignarValorEntrada(data.numero_entrada);
+                    });
             },
 
-            asignarValorEntrada: function(numeroEntradaCliente) {
-              this.$numeroEntradaClienteInput.val(numeroEntradaCliente);
+            asignarValorEntrada: function (numeroEntradaCliente) {
+                this.$numeroEntradaClienteInput.val(numeroEntradaCliente);
 
-              return;
+                return;
             }
         };
 
         /**
         * Funcion que observa por cambios en el campo cliente
         */
-        $(document).on('change', '#entrada_client_id', entrada, function() {
+        $(document).on('change', '#entrada_client_id', entrada, function () {
             entrada.obtenerValorEntradaCliente();
             return;
         });

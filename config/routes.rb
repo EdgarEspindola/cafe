@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :entradas do
     get :reporte, on: :member
     get :numero_entrada_cliente, on: :collection
+    get :excel_export, on: :collection
   end
   
   resources :drivers

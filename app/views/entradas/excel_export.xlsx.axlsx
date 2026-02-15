@@ -1,0 +1,79 @@
+wb = xlsx_package.workbook
+
+# Define styles matching the Excel screenshot
+header_style = wb.styles.add_style(
+  b: true,
+  fg_color: 'FFFFFF',
+  bg_color: '1F4E78',
+  border: { style: :thin, color: '000000' },
+  alignment: { horizontal: :center, vertical: :center }
+)
+
+date_style = wb.styles.add_style(
+  format_code: 'dd/mm/yyyy',
+  border: { style: :thin, color: '000000' },
+  alignment: { horizontal: :right }
+)
+
+number_style = wb.styles.add_style(
+  format_code: '#,##0.00',
+  border: { style: :thin, color: '000000' },
+  alignment: { horizontal: :right }
+)
+
+text_style = wb.styles.add_style(
+  border: { style: :thin, color: '000000' },
+  alignment: { horizontal: :left }
+)
+
+wb.add_worksheet(name: 'Entradas') do |sheet|
+  # Add header row
+  sheet.add_row [
+    'FECHA',
+    'NO. PARTIDA',
+    'CLIENTE',
+    'ENTREGA',
+    'KGB',
+    'TAR',
+    'KGN',
+    'SECADO',
+    'MUESTRA',
+    'TIEMPO',
+    'SACO',
+    'BOLSA',
+    'COSTALILLA'
+  ], style: header_style
+  
+  # Iterate through entradas and partidas
+  @entradas.each do |entrada|
+    entrada.partidas.each do |partida|
+      # Calculate merma quantities by type
+      secado = partida.mermas.select { |m| m.type_merma == 'dry_coffee' }.sum { |m| m.quantity.to_f }
+      muestra = partida.mermas.select { |m| m.type_merma == 'sample_coffee' }.sum { |m| m.quantity.to_f }
+      tiempo = partida.mermas.select { |m| m.type_merma == 'time' }.sum { |m| m.quantity.to_f }
+      
+      # Add data row with appropriate styles
+      sheet.add_row [
+        entrada.date,
+        partida.identificador_with_format,
+        entrada.client.legal_representative,
+        entrada.entregado_por,
+        partida.kilogramos_brutos.to_f,
+        partida.tara.to_f,
+        partida.kilogramos_netos.to_f,
+        secado,
+        muestra,
+        tiempo,
+        partida.numero_sacos.to_i,
+        partida.numero_bolsas.to_i,
+        partida.numero_costalillas.to_i
+      ], style: [date_style, text_style, text_style, text_style, 
+                 number_style, number_style, number_style, 
+                 number_style, number_style, number_style,
+                 number_style, number_style, number_style]
+    end
+  end
+  
+  # Auto-size all columns for better readability
+  sheet.column_widths(*Array.new(13, nil))
+end

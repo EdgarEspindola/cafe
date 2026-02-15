@@ -82,6 +82,44 @@ class EntradasController < ApplicationController
     send_file_pdf("Entrada#{@entrada.numero_entrada}", "entradas", xml_data, "entrada")
   end
   
+  # GET /entradas/excel_export.xlsx
+  def excel_export
+    begin
+      # Parse date parameters
+      fecha_inicio = Date.strptime(params[:fecha_inicio], '%d/%m/%Y').beginning_of_day
+      fecha_fin = Date.strptime(params[:fecha_fin], '%d/%m/%Y').end_of_day
+      
+      # Query entradas with filters
+      @entradas = Entrada.validas
+                         .where(date: fecha_inicio..fecha_fin)
+                         .includes(:client, partidas: [:mermas, :type_coffee])
+                         .order(date: :asc)
+      
+      # Validate results
+      if @entradas.empty?
+        flash[:warning] = 'No se encontraron entradas en el rango de fechas seleccionado.'
+        redirect_to entradas_url and return
+      end
+      
+      # Set instance variables for filename
+      @fecha_inicio = fecha_inicio
+      @fecha_fin = fecha_fin
+      
+      respond_to do |format|
+        format.html do
+          # Redirect to xlsx format if accessed as HTML
+          redirect_to excel_export_entradas_path(format: :xlsx, fecha_inicio: params[:fecha_inicio], fecha_fin: params[:fecha_fin])
+        end
+        format.xlsx do
+          response.headers['Content-Disposition'] = "attachment; filename=\"Entradas_#{@fecha_inicio.strftime('%d%m%Y')}_#{@fecha_fin.strftime('%d%m%Y')}.xlsx\""
+        end
+      end
+    rescue ArgumentError => e
+      flash[:error] = 'Formato de fecha inválido. Use el formato DD/MM/YYYY.'
+      redirect_to entradas_url
+    end
+  end
+  
   # GET /entradas/numero_entrada_cliente?idCliente=1.json
   def numero_entrada_cliente
     numero_entrada_cliente = {}
