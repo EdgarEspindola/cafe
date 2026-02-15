@@ -69,3 +69,8 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
 gem 'jquery_mask_rails', '~> 0.1.0'
 gem 'kaminari' #Pagination
 gem 'devise'
+
+# Excel generation - using older versions compatible with Ruby 2.4.10 and nokogiri 1.8.0
+gem 'rubyzip', '~> 1.1.7'
+gem 'axlsx', '2.1.0.pre'
+gem 'axlsx_rails', '~> 0.5'
