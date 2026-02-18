@@ -36,9 +36,6 @@ wb.add_worksheet(name: 'Entradas') do |sheet|
     'KGB',
     'TAR',
     'KGN',
-    'SECADO',
-    'MUESTRA',
-    'TIEMPO',
     'SACO',
     'BOLSA',
     'COSTALILLA'
@@ -47,23 +44,15 @@ wb.add_worksheet(name: 'Entradas') do |sheet|
   # Iterate through entradas and partidas
   @entradas.each do |entrada|
     entrada.partidas.each do |partida|
-      # Calculate merma quantities by type
-      secado = partida.mermas.select { |m| m.merma_type == 'dry_coffee' }.sum { |m| m.quantity.to_f }
-      muestra = partida.mermas.select { |m| m.merma_type == 'sample_coffee' }.sum { |m| m.quantity.to_f }
-      tiempo = partida.mermas.select { |m| m.merma_type == 'time' }.sum { |m| m.quantity.to_f }
-      
       # Add data row with appropriate styles
       sheet.add_row [
         entrada.date,
         partida.identificador_with_format,
-        entrada.client.legal_representative,
+        entrada.client.organization,
         entrada.entregado_por,
         partida.kilogramos_brutos.to_f,
         partida.tara.to_f,
         partida.kilogramos_netos.to_f,
-        secado,
-        muestra,
-        tiempo,
         partida.numero_sacos.to_i,
         partida.numero_bolsas.to_i,
         partida.numero_costalillas.to_i
