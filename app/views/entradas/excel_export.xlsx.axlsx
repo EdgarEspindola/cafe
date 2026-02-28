@@ -32,6 +32,7 @@ wb.add_worksheet(name: 'Entradas') do |sheet|
     'FECHA',
     'NO. PARTIDA',
     'CLIENTE',
+    'OBSERVACIONES',
     'ENTREGA',
     'KGB',
     'TAR',
@@ -43,12 +44,13 @@ wb.add_worksheet(name: 'Entradas') do |sheet|
   
   # Iterate through entradas and partidas
   @entradas.each do |entrada|
-    entrada.partidas.each do |partida|
+    entrada.partidas.order("identificador ASC").each do |partida|
       # Add data row with appropriate styles
       sheet.add_row [
         entrada.date,
         partida.identificador_with_format,
         entrada.client.organization,
+        partida.observaciones,
         entrada.entregado_por,
         partida.kilogramos_brutos.to_f,
         partida.tara.to_f,

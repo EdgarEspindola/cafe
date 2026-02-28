@@ -16,7 +16,7 @@ xml.entrada do
     xml.organizacion @entrada.client.organization
   end
   xml.partidas do
-    @entrada.partidas.limit(10).offset(@offset).order("identificador ASC").each do |partida|
+    @entrada.partidas.offset(@offset).order("identificador ASC").each do |partida|
       xml.partida do
         xml.numero_partida partida.identificador_with_format
         xml.kilogramos_brutos number_with_precision(partida.kilogramos_brutos, precision: 2)
